@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: discordred
+  labels:
+    name: discordred
+spec:
+  containers:
+    - resources:
+        limits:
+          cpu: 0.5
+      image: discordred/discord-red
+      name: discordred
+      env:
+        - name: ENV_VALUE
+          # Change this value!
+          value: examplevalue
+      ports:
+        - containerPort: 8080
+          name: discordred
+      volumeMounts:
+          # This name must match the volumes.name below.
+        - name: discord-red-disk
+          mountPath: /app/data
+  volumes:
+    - name: discord-red-disk
+      gcePersistentDisk:
+        # This disk must already exist.
+        pdName: discord-red-prod
+        fsType: ext4
